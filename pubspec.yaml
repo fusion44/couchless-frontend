@@ -14,7 +14,7 @@ description: A new Flutter project.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.2.2 <3.0.0"
 
 dependencies:
   flutter:
@@ -28,6 +28,7 @@ dependencies:
   meta: ^1.1.8
   equatable: ^1.1.1
   get_it: ^4.0.2
+  material_design_icons_flutter: ^4.0.5245
   
 dev_dependencies:
   # flutter_test:
