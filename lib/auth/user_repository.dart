@@ -67,14 +67,36 @@ mutation LoginUser {
     }
   }
 
-  Future<void> deleteToken() async {
-    await _store.delete(prefKeyJWTToken);
+  Future<void> deleteUserData() async {
+    await _store.deleteAll([
+      prefKeyJWTToken,
+      prefKeyJWTExpiry,
+      prefKeyUserId,
+      prefKeyUsername,
+      prefKeyUserEmail,
+    ]);
+
     return;
   }
 
-  Future<void> persistToken(AuthResult token) async {
+  Future<void> persistUserData(AuthResult token) async {
     await _store.put(prefKeyJWTToken, token.jwtToken.accessToken);
-    await _store.put(prefKeyJWTToken, token.jwtToken.expiredAt);
+    await _store.put(prefKeyJWTExpiry, token.jwtToken.expiredAt);
+    await _store.put(prefKeyUserId, token.user.id);
+    await _store.put(prefKeyUsername, token.user.username);
+    await _store.put(prefKeyUserEmail, token.user.email);
+    await _store.put(prefKeyUserCreatedAt, token.user.createdAt);
+    await _store.put(prefKeyUserUpdatedAt, token.user.updatedAt);
+  }
+
+  Future<User> getUser() async {
+    return User(
+      id: await _store.get(prefKeyUserId),
+      username: await _store.get(prefKeyUsername),
+      email: await _store.get(prefKeyUserEmail),
+      createdAt: await _store.get(prefKeyUserCreatedAt),
+      updatedAt: await _store.get(prefKeyUserUpdatedAt),
+    );
   }
 
   Future<bool> hasToken() async {

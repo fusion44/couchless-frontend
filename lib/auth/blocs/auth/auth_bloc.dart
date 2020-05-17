@@ -22,17 +22,17 @@ class AuthBloc extends Bloc<AuthBaseEvent, AuthBaseState> {
     if (event is AppStarted) {
       bool hasToken = await userRepository.hasToken();
       if (hasToken) {
-        yield AuthAuthenticated();
+        yield AuthAuthenticated(await userRepository.getUser());
       } else {
         yield AuthUnauthenticated();
       }
     } else if (event is LoggedIn) {
       yield AuthLoading();
-      await userRepository.persistToken(event.authResult);
-      yield AuthAuthenticated();
+      await userRepository.persistUserData(event.authResult);
+      yield AuthAuthenticated(event.authResult.user);
     } else if (event is LoggedOut) {
       yield AuthLoading();
-      await userRepository.deleteToken();
+      await userRepository.deleteUserData();
       yield AuthUnauthenticated();
     }
   }
