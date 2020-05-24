@@ -41,7 +41,7 @@ class LoginBloc extends Bloc<LoginBaseEvent, LoginBaseState> {
         if (result.error) {
           yield LoginFailure(errors: result.errorMessages);
         } else {
-          authBloc.add(LoggedIn(result));
+          authBloc.add(LoggedIn(event.uri, result));
           yield LoginInitial();
         }
       } catch (error) {

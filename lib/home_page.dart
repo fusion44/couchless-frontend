@@ -1,3 +1,4 @@
+import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -13,9 +14,11 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
+  final GlobalKey<FabCircularMenuState> fabKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
     return NavRail(
       drawerHeaderBuilder: (context) {
         return Column(
@@ -69,11 +72,7 @@ class _HomePageState extends State<HomePage> {
           Container(color: Colors.grey[300]),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ),
+      floatingActionButton: _buildFabCircularMenu(theme),
       tabs: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           title: Text("Stats"),
@@ -90,21 +89,69 @@ class _HomePageState extends State<HomePage> {
       ],
     );
   }
+
+  FabCircularMenu _buildFabCircularMenu(ThemeData theme) {
+    return FabCircularMenu(
+      key: fabKey,
+      animationDuration: Duration(milliseconds: 50),
+      ringWidth: 60.0,
+      ringColor: theme.backgroundColor,
+      ringDiameter: 250.0,
+      children: <Widget>[
+        _buildIconButtonWithText(
+          () {
+            _hideMenu();
+          },
+          'Manual',
+          'Manual',
+        ),
+        _buildIconButtonWithText(
+          () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) {},
+              ),
+            );
+            _hideMenu();
+          },
+          'Import',
+          'Import via a FIT file',
+        ),
+      ],
+    );
+  }
+
+  Widget _buildIconButtonWithText(
+    Function onPressed,
+    String text,
+    String tooltip,
+  ) {
+    return Container(
+      width: 68,
+      height: 55,
+      child: Stack(
+        children: [
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Text(text),
+          ),
+          Align(
+            alignment: Alignment.topCenter,
+            child: IconButton(
+              icon: Icon(Icons.edit),
+              onPressed: onPressed,
+              tooltip: tooltip,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _hideMenu() {
+    if (fabKey.currentState.isOpen) {
+      fabKey.currentState.close();
+    }
+  }
 }
-
-// _getDir();
-//               Navigator.push(
-//                 context,
-//                 MaterialPageRoute(
-//                   builder: (context) {
-//                     return LoginPage();
-//                   },
-//                 ),
-//               );
-
-// void _getDir() async {
-//   var dir =
-//       Platform.environment['HOME'] ?? Platform.environment['USERPROFILE'];
-
-//   print(dir);
-// }

@@ -28,7 +28,7 @@ class AuthBloc extends Bloc<AuthBaseEvent, AuthBaseState> {
       }
     } else if (event is LoggedIn) {
       yield AuthLoading();
-      await userRepository.persistUserData(event.authResult);
+      await userRepository.persistUserData(event.uri, event.authResult);
       yield AuthAuthenticated(event.authResult.user);
     } else if (event is LoggedOut) {
       yield AuthLoading();

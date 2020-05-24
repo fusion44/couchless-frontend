@@ -1,9 +1,11 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
+import 'package:graphql/client.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:get_it/get_it.dart';
+import 'package:lifelog/constants.dart';
 
 import 'auth/blocs/auth/auth_bloc.dart';
 import 'auth/loading_indicator.dart';
@@ -40,7 +42,7 @@ void main() async {
   await Hive.initFlutter();
 
   final userRepository = await UserRepository.openRepository();
-  // await userRepository.deleteToken();
+  // await userRepository.deleteUserData();
   final prefsRepository = await PrefsRepository.openRepository();
   final authBloc = AuthBloc(userRepository)..add(AppStarted());
 
@@ -53,7 +55,44 @@ void main() async {
   runApp(App());
 }
 
-class App extends StatelessWidget {
+class App extends StatefulWidget {
+  @override
+  _AppState createState() => _AppState();
+}
+
+class _AppState extends State<App> {
+  bool graphQLClientReady = false;
+  @override
+  void initState() {
+    GetIt.I.get<AuthBloc>().listen((state) async {
+      if (state is AuthAuthenticated) {
+        // build GraphQL client
+        var box = await Hive.openBox('tokens');
+        var uri = box.get(prefKeyUrl).toString();
+        var jwtToken = box.get(prefKeyJWTToken).toString();
+
+        final httpLink = HttpLink(uri: uri);
+        final AuthLink authLink = AuthLink(
+          getToken: () => 'Bearer $jwtToken',
+        );
+        final client = GraphQLClient(
+          cache: OptimisticCache(
+            dataIdFromObject: typenameDataIdFromObject,
+          ),
+          link: authLink.concat(httpLink),
+        );
+
+        final getIt = GetIt.instance;
+        getIt.registerSingleton<GraphQLClient>(client);
+
+        setState(() {
+          graphQLClientReady = true;
+        });
+      }
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -61,10 +100,9 @@ class App extends StatelessWidget {
       home: BlocBuilder<AuthBloc, AuthBaseState>(
         bloc: GetIt.I.get<AuthBloc>(),
         builder: (context, state) {
-          print(state);
-          if (state is AuthUninitialized) {
+          if (state is AuthUninitialized && !graphQLClientReady) {
             return SplashPage();
-          } else if (state is AuthAuthenticated) {
+          } else if (state is AuthAuthenticated && graphQLClientReady) {
             return HomePage();
           } else if (state is AuthUnauthenticated) {
             return LoginPage();

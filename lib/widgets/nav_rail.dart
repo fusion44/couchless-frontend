@@ -34,7 +34,7 @@ const _railSize = 72.0;
 const _denseRailSize = 56.0;
 
 class NavRail extends StatelessWidget {
-  final FloatingActionButton floatingActionButton;
+  final Widget floatingActionButton;
   final int currentIndex;
   final Widget body;
   final Widget title;
@@ -101,6 +101,7 @@ class NavRail extends StatelessWidget {
                               automaticallyImplyLeading: false,
                             ),
                       body: body,
+                      floatingActionButton: floatingActionButton,
                     ),
                   ),
                 ],
@@ -127,6 +128,7 @@ class NavRail extends StatelessWidget {
                   Expanded(child: body),
                 ],
               ),
+              floatingActionButton: floatingActionButton,
             );
           }
           return Scaffold(

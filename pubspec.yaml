@@ -29,6 +29,7 @@ dependencies:
   equatable: ^1.1.1
   get_it: ^4.0.2
   material_design_icons_flutter: ^4.0.5245
+  fab_circular_menu: ^1.0.0
   
 dev_dependencies:
   # flutter_test:

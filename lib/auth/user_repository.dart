@@ -31,23 +31,7 @@ class UserRepository {
       link: httpLink,
     );
 
-    final _options = MutationOptions(documentNode: gql('''
-mutation LoginUser {
-  login(input: { email: "$username", password: "$password" }) {
-    authToken {
-      accessToken
-      expiredAt
-    }
-    user {
-      id
-      username
-      email
-      createdAt
-      updatedAt
-    }
-  }
-}
-'''));
+    final _options = _getAuthMutationOptions(username, password);
 
     var res = await client.mutate(_options);
 
@@ -69,17 +53,21 @@ mutation LoginUser {
 
   Future<void> deleteUserData() async {
     await _store.deleteAll([
+      prefKeyUrl,
       prefKeyJWTToken,
       prefKeyJWTExpiry,
       prefKeyUserId,
       prefKeyUsername,
       prefKeyUserEmail,
+      prefKeyUserCreatedAt,
+      prefKeyUserUpdatedAt,
     ]);
 
     return;
   }
 
-  Future<void> persistUserData(AuthResult token) async {
+  Future<void> persistUserData(String uri, AuthResult token) async {
+    await _store.put(prefKeyUrl, uri);
     await _store.put(prefKeyJWTToken, token.jwtToken.accessToken);
     await _store.put(prefKeyJWTExpiry, token.jwtToken.expiredAt);
     await _store.put(prefKeyUserId, token.user.id);
@@ -103,5 +91,25 @@ mutation LoginUser {
     String token = await _store.get(prefKeyJWTToken, defaultValue: '');
     if (token == null || token.isEmpty) return false;
     return true;
+  }
+
+  MutationOptions _getAuthMutationOptions(String username, String password) {
+    return MutationOptions(documentNode: gql('''
+mutation LoginUser {
+  login(input: { username: "$username", password: "$password" }) {
+    authToken {
+      accessToken
+      expiredAt
+    }
+    user {
+      id
+      username
+      email
+      createdAt
+      updatedAt
+    }
+  }
+}
+'''));
   }
 }
