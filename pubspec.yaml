@@ -28,9 +28,16 @@ dependencies:
   meta: ^1.1.8
   equatable: ^1.1.1
   get_it: ^4.0.2
-  material_design_icons_flutter: ^4.0.5245
+  flutter_vector_icons: ^0.2.1
   fab_circular_menu: ^1.0.0
-  
+  timeago: ^2.0.26
+  glob: ^1.2.0
+  get: ^2.6.1
+  flutter_spinkit: "^4.1.2"
+  fit2json:
+    git:
+      url: https://github.com/fusion44/fit2json
+      
 dev_dependencies:
   # flutter_test:
   #   sdk: flutter

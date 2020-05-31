@@ -1,10 +1,12 @@
 import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import 'auth/blocs/auth/auth_bloc.dart';
+import 'fitness/activity/import/import_fit_file_page.dart';
 import 'widgets/nav_rail.dart';
 
 class HomePage extends StatefulWidget {
@@ -76,7 +78,7 @@ class _HomePageState extends State<HomePage> {
       tabs: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           title: Text("Stats"),
-          icon: Icon(MdiIcons.chartAreaspline),
+          icon: Icon(MaterialCommunityIcons.chart_areaspline),
         ),
         BottomNavigationBarItem(
           title: Text("Activities"),
@@ -84,7 +86,7 @@ class _HomePageState extends State<HomePage> {
         ),
         BottomNavigationBarItem(
           title: Text("Health"),
-          icon: Icon(MdiIcons.heart),
+          icon: Icon(MaterialCommunityIcons.heart),
         ),
       ],
     );
@@ -107,12 +109,7 @@ class _HomePageState extends State<HomePage> {
         ),
         _buildIconButtonWithText(
           () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) {},
-              ),
-            );
+            Get.to(ImportFitFile());
             _hideMenu();
           },
           'Import',

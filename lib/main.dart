@@ -1,17 +1,19 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:graphql/client.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:lifelog/constants.dart';
 
 import 'auth/blocs/auth/auth_bloc.dart';
 import 'auth/loading_indicator.dart';
 import 'auth/login_page.dart';
 import 'auth/splash_page.dart';
 import 'auth/user_repository.dart';
+import 'constants.dart';
+import 'fitness/activity/activity_repository.dart';
 import 'four_o_four_page.dart';
 import 'home_page.dart';
 import 'prefs/bloc/prefs_repository.dart';
@@ -24,7 +26,7 @@ class SimpleBlocDelegate extends BlocDelegate {
   }
 
   @override
-  void onTransition(Bloc bloc, Transition transition) {
+  void onTransition(Bloc bloc, dynamic transition) {
     super.onTransition(bloc, transition);
     print(transition);
   }
@@ -70,6 +72,7 @@ class _AppState extends State<App> {
         var box = await Hive.openBox('tokens');
         var uri = box.get(prefKeyUrl).toString();
         var jwtToken = box.get(prefKeyJWTToken).toString();
+        box.close();
 
         final httpLink = HttpLink(uri: uri);
         final AuthLink authLink = AuthLink(
@@ -84,6 +87,7 @@ class _AppState extends State<App> {
 
         final getIt = GetIt.instance;
         getIt.registerSingleton<GraphQLClient>(client);
+        getIt.registerSingleton<ActivityRepository>(ActivityRepository(client));
 
         setState(() {
           graphQLClientReady = true;
@@ -95,7 +99,7 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       theme: ThemeData.dark(),
       home: BlocBuilder<AuthBloc, AuthBaseState>(
         bloc: GetIt.I.get<AuthBloc>(),
