@@ -6,7 +6,9 @@ import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 
 import 'auth/blocs/auth/auth_bloc.dart';
+import 'fitness/activity/fetch/bloc/fetch_activities_bloc.dart';
 import 'fitness/activity/import/import_fit_file_page.dart';
+import 'fitness/list_activities_widget.dart';
 import 'widgets/nav_rail.dart';
 
 class HomePage extends StatefulWidget {
@@ -69,7 +71,14 @@ class _HomePageState extends State<HomePage> {
         index: _currentIndex,
         children: <Widget>[
           Container(color: Colors.blue[300]),
-          Container(color: Colors.red[300]),
+          BlocProvider(
+            create: (BuildContext context) {
+              var bloc = FetchActivitiesBloc();
+              bloc.add(FetchActivities());
+              return bloc;
+            },
+            child: ListActivitiesWidget(),
+          ),
           Container(color: Colors.purple[300]),
           Container(color: Colors.grey[300]),
         ],

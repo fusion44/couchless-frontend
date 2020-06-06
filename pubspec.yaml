@@ -37,7 +37,10 @@ dependencies:
   fit2json:
     git:
       url: https://github.com/fusion44/fit2json
-      
+  flutter_map:
+    path: /home/fusion44/dev/stuff/flutter_map
+  latlong: ^0.6.1
+   
 dev_dependencies:
   # flutter_test:
   #   sdk: flutter

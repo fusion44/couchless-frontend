@@ -1,6 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
+String getNameForSport(String sport) {
+  switch (sport) {
+    case "hiking":
+      return 'Hiking';
+    case "running":
+      return 'Running';
+    case "cycling":
+      return 'Cycling';
+    case "training":
+      return 'Training';
+    case "generic":
+      return 'Generic Sport';
+    default:
+      return 'Unsupported Sport: $sport';
+  }
+}
+
 Widget getIconForSport(String sport) {
   switch (sport) {
     case "hiking":
