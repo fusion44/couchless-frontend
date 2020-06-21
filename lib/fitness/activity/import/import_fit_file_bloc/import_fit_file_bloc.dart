@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fit2json/models/activity.dart';
-import 'package:get_it/get_it.dart';
+import 'package:get/get.dart';
 import 'package:graphql/client.dart';
 import 'package:graphql/utilities.dart';
 import 'package:hive/hive.dart';
@@ -101,13 +101,15 @@ class ImportFitFileBloc
   }
 
   FutureOr<FileDescriptor> _upload(File file) async {
-    var client = GetIt.I.get<GraphQLClient>();
+    var client = Get.find<GraphQLClient>();
     final res = await client.mutate(await _getUploadFITFileMutation(file));
 
     if (res.hasException) {
       for (var e in res.exception.graphqlErrors) {
         if (e.message.contains('File exists')) {
           throw FileExistsOnServerException(e.message);
+        } else {
+          print(e.message);
         }
       }
 
@@ -118,7 +120,7 @@ class ImportFitFileBloc
   }
 
   FutureOr<Activity> _import(FileDescriptor fd, String comment) async {
-    var client = GetIt.I.get<GraphQLClient>();
+    var client = Get.find<GraphQLClient>();
     var opts = _getImportFITFileMutation(fd.id, comment);
     final res = await client.mutate(opts);
 

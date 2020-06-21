@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
-import 'package:get_it/get_it.dart';
 import 'package:graphql/client.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -48,11 +47,9 @@ void main() async {
   final prefsRepository = await PrefsRepository.openRepository();
   final authBloc = AuthBloc(userRepository)..add(AppStarted());
 
-  final getIt = GetIt.instance;
-
-  getIt.registerSingleton<UserRepository>(userRepository);
-  getIt.registerSingleton<PrefsRepository>(prefsRepository);
-  getIt.registerSingleton<AuthBloc>(authBloc);
+  Get.put(userRepository);
+  Get.put(prefsRepository);
+  Get.put(authBloc);
 
   runApp(App());
 }
@@ -66,7 +63,7 @@ class _AppState extends State<App> {
   bool graphQLClientReady = false;
   @override
   void initState() {
-    GetIt.I.get<AuthBloc>().listen((state) async {
+    Get.find<AuthBloc>().listen((state) async {
       if (state is AuthAuthenticated) {
         // build GraphQL client
         var box = await Hive.openBox('tokens');
@@ -85,9 +82,8 @@ class _AppState extends State<App> {
           link: authLink.concat(httpLink),
         );
 
-        final getIt = GetIt.instance;
-        getIt.registerSingleton<GraphQLClient>(client);
-        getIt.registerSingleton<ActivityRepository>(ActivityRepository(client));
+        Get.put(client);
+        Get.put(ActivityRepository(client));
 
         setState(() {
           graphQLClientReady = true;
@@ -102,7 +98,7 @@ class _AppState extends State<App> {
     return GetMaterialApp(
       theme: ThemeData.dark(),
       home: BlocBuilder<AuthBloc, AuthBaseState>(
-        bloc: GetIt.I.get<AuthBloc>(),
+        bloc: Get.find<AuthBloc>(),
         builder: (context, state) {
           if (state is AuthUninitialized && !graphQLClientReady) {
             return SplashPage();

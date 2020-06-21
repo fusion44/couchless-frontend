@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:get_it/get_it.dart';
+import 'package:get/get.dart';
 
 import '../../activity_repository.dart';
 import '../../models/models.dart';
@@ -22,7 +22,7 @@ class FetchActivitiesBloc
     final currentState = state;
     if (event is FetchActivities && !_hasReachedMax(currentState)) {
       try {
-        var repo = GetIt.I.get<ActivityRepository>();
+        var repo = Get.find<ActivityRepository>();
         if (currentState is FetchActivitiesInitial) {
           var activities = await repo.getActivities(limit: event.limit);
           yield FetchActivitiesFinishedState(activities, false);

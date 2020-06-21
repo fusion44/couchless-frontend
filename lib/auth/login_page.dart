@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
+import 'package:get/get.dart';
 
 import '../prefs/bloc/prefs_bloc.dart';
 import 'blocs/auth/auth_bloc.dart';
@@ -18,8 +18,8 @@ class LoginPage extends StatelessWidget {
       body: BlocProvider(
         create: (context) {
           return LoginBloc(
-            GetIt.I.get<UserRepository>(),
-            GetIt.I.get<AuthBloc>(),
+            Get.find<UserRepository>(),
+            Get.find<AuthBloc>(),
             PrefsBloc(),
           );
         },

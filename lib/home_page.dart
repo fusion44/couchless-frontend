@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:get/get.dart';
-import 'package:get_it/get_it.dart';
 
 import 'auth/blocs/auth/auth_bloc.dart';
 import 'fitness/activity/fetch/bloc/fetch_activities_bloc.dart';
@@ -28,7 +27,7 @@ class _HomePageState extends State<HomePage> {
         return Column(
           children: <Widget>[
             BlocBuilder<AuthBloc, AuthBaseState>(
-              bloc: GetIt.I.get<AuthBloc>(),
+              bloc: Get.find<AuthBloc>(),
               builder: (context, state) {
                 if (state is AuthAuthenticated) {
                   return UserAccountsDrawerHeader(
