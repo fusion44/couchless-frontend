@@ -43,6 +43,20 @@ query GetActivities {
     boundarySouth
     boundaryEast
     boundaryWest
+    timePaused
+    avgPace
+    avgSpeed
+    avgCadence
+    avgFractionalCadence
+    maxCadence
+    maxSpeed
+    totalDistance
+    totalAscent
+    totalDescent
+    maxAltitude
+    avgHeartRate
+    maxHeartRate
+    totalTrainingEffect
     records {
       id
       timestamp

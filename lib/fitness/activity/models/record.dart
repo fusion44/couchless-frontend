@@ -1,5 +1,7 @@
 import 'package:latlong/latlong.dart';
 
+import '../../../common/utils.dart';
+
 class Record {
   String id;
   String activityId;
@@ -43,8 +45,11 @@ class Record {
     id = json['id'];
     activityId = json['activityId'];
     timestamp = json['timestamp'];
-    position = LatLng(json['positionLat'], json['positionLong']);
-    distance = double.tryParse(json['distance'].toString());
+    position = LatLng(
+      ensureDouble(json['positionLat']),
+      ensureDouble(json['positionLong']),
+    );
+    distance = json['distance'];
     timeFromCourse = json['timeFromCourse'];
     heartRate = json['heartRate'];
     altitude = json['altitude'];

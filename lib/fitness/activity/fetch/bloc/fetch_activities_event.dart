@@ -5,11 +5,10 @@ abstract class FetchActivitiesBaseEvent extends Equatable {
 }
 
 class FetchActivities extends FetchActivitiesBaseEvent {
-  final int offset;
   final int limit;
 
-  FetchActivities([this.offset = 0, this.limit = 10]);
+  FetchActivities([this.limit = 10]);
 
   @override
-  List<Object> get props => [offset, limit];
+  List<Object> get props => [limit];
 }

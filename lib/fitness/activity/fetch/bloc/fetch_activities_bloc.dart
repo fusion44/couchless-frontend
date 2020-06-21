@@ -19,10 +19,35 @@ class FetchActivitiesBloc
   Stream<FetchActivitiesBaseState> mapEventToState(
     FetchActivitiesBaseEvent event,
   ) async* {
-    if (event is FetchActivities) {
-      var repo = GetIt.I.get<ActivityRepository>();
-      var activities = await repo.getActivities();
-      yield FetchActivitiesFinishedState(activities);
+    final currentState = state;
+    if (event is FetchActivities && !_hasReachedMax(currentState)) {
+      try {
+        var repo = GetIt.I.get<ActivityRepository>();
+        if (currentState is FetchActivitiesInitial) {
+          var activities = await repo.getActivities(limit: event.limit);
+          yield FetchActivitiesFinishedState(activities, false);
+          return;
+        }
+        if (currentState is FetchActivitiesFinishedState) {
+          var activities = await repo.getActivities(
+            limit: event.limit,
+            offset: currentState.activities.length,
+          );
+
+          yield activities.isEmpty
+              ? currentState.copyWith(hasReachedMax: true)
+              : FetchActivitiesFinishedState(
+                  currentState.activities + activities,
+                  false,
+                );
+        }
+      } catch (e, trace) {
+        print(trace);
+        yield FetchActivitiesError(state, e.toString());
+      }
     }
   }
+
+  bool _hasReachedMax(FetchActivitiesBaseState state) =>
+      state is FetchActivitiesFinishedState && state.hasReachedMax;
 }
