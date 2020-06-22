@@ -39,7 +39,8 @@ dependencies:
   flutter_map:
     path: /home/fusion44/dev/stuff/flutter_map
   latlong: ^0.6.1
-   
+  fl_chart: ^0.10.0
+  
 dev_dependencies:
   # flutter_test:
   #   sdk: flutter

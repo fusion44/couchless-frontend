@@ -6,12 +6,13 @@ class MapTile extends StatefulWidget {
   final LatLng center;
   final LatLngBounds bounds;
   final List<LatLng> path;
-
+  final bool interactive;
   const MapTile({
     Key key,
     @required this.center,
     @required this.bounds,
     this.path = const [],
+    this.interactive = false,
   }) : super(key: key);
 
   @override
@@ -24,7 +25,7 @@ class _MapTileState extends State<MapTile> {
       options: MapOptions(
         bounds: widget.bounds,
         boundsOptions: FitBoundsOptions(padding: EdgeInsets.all(32.0)),
-        interactive: false,
+        interactive: widget.interactive,
       ),
       layers: [
         _getTileLayer(),
@@ -43,7 +44,8 @@ class _MapTileState extends State<MapTile> {
 
   TileLayerOptions _getTileLayer() {
     return TileLayerOptions(
-      tileProvider: NetworkTileProvider(),
+      tileProvider: CachedFileNetworkTileProvider(
+          '/home/fusion44/dev/lifelog/backend/files/img_cache'),
       urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
       subdomains: ['a', 'b', 'c'],
     );

@@ -5,7 +5,7 @@ import '../../../common/utils.dart';
 class Record {
   String id;
   String activityId;
-  String timestamp;
+  DateTime timestamp;
   LatLng position;
   num distance;
   num timeFromCourse;
@@ -44,7 +44,7 @@ class Record {
   Record.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     activityId = json['activityId'];
-    timestamp = json['timestamp'];
+    timestamp = DateTime.parse(json['timestamp']);
     position = LatLng(
       ensureDouble(json['positionLat']),
       ensureDouble(json['positionLong']),
