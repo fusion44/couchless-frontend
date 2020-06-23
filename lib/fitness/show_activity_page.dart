@@ -7,6 +7,7 @@ import 'package:timeago/timeago.dart' as timeago;
 import '../common/sport_utils.dart';
 import '../common/widgets/widgets.dart';
 import 'activity/models/activity.dart';
+import 'widgets/widgets.dart';
 
 class ShowActivityPage extends StatefulWidget {
   final Activity activity;
@@ -132,58 +133,114 @@ class _ShowActivityPageState extends State<ShowActivityPage> {
                 interactive: true,
               ),
             ),
-            Container(height: 25.0),
+            Container(height: 8.0),
+            _buildToggleButtons(),
             _buildHeartRateChart(theme),
             Container(height: 8.0),
-            ToggleButtons(
-              renderBorder: false,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: RaisedButton(
-                    child: Text('Heart Rate'),
-                    onPressed: _toggleButtonState[0]
-                        ? null
-                        : () {
-                            if (_toggleButtonState[0]) return;
-                            setState(() {
-                              _toggleButtonState = [true, false, false];
-                              _chartType = ChartType.heartRate;
-                            });
-                          },
-                  ),
-                ),
-                RaisedButton(
-                    child: Text('Altitude'),
-                    onPressed: _toggleButtonState[1]
-                        ? null
-                        : () {
-                            if (_toggleButtonState[1]) return;
-                            setState(() {
-                              _toggleButtonState = [false, true, false];
-                              _chartType = ChartType.altitude;
-                            });
-                          }),
-                Padding(
-                  padding: const EdgeInsets.only(left: 8.0),
-                  child: RaisedButton(
-                      child: Text('Speed'),
-                      onPressed: _toggleButtonState[2]
-                          ? null
-                          : () {
-                              if (_toggleButtonState[2]) return;
-                              setState(() {
-                                _toggleButtonState = [false, false, true];
-                                _chartType = ChartType.speed;
-                              });
-                            }),
-                ),
-              ],
-              isSelected: _toggleButtonState,
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Divider(),
             ),
-            Wrap(
-              children: <Widget>[],
+            Expanded(
+              child: Wrap(
+                alignment: WrapAlignment.start,
+                children: <Widget>[
+                  _buildTrainingEffectChart(theme),
+                ],
+              ),
             ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  ToggleButtons _buildToggleButtons() {
+    return ToggleButtons(
+      renderBorder: false,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.only(right: 8.0),
+          child: RaisedButton(
+            child: Text('Heart Rate'),
+            onPressed: _toggleButtonState[0]
+                ? null
+                : () {
+                    if (_toggleButtonState[0]) return;
+                    setState(() {
+                      _toggleButtonState = [true, false, false];
+                      _chartType = ChartType.heartRate;
+                    });
+                  },
+          ),
+        ),
+        RaisedButton(
+            child: Text('Altitude'),
+            onPressed: _toggleButtonState[1]
+                ? null
+                : () {
+                    if (_toggleButtonState[1]) return;
+                    setState(() {
+                      _toggleButtonState = [false, true, false];
+                      _chartType = ChartType.altitude;
+                    });
+                  }),
+        Padding(
+          padding: const EdgeInsets.only(left: 8.0),
+          child: RaisedButton(
+              child: Text('Speed'),
+              onPressed: _toggleButtonState[2]
+                  ? null
+                  : () {
+                      if (_toggleButtonState[2]) return;
+                      setState(() {
+                        _toggleButtonState = [false, false, true];
+                        _chartType = ChartType.speed;
+                      });
+                    }),
+        ),
+      ],
+      isSelected: _toggleButtonState,
+    );
+  }
+
+  Widget _buildTrainingEffectChart(ThemeData theme) {
+    return ClipRect(
+      clipper: GaugeChartClipper(),
+      child: Container(
+        height: 200,
+        width: 200,
+        child: Stack(
+          fit: StackFit.expand,
+          children: <Widget>[
+            GaugeChart(
+              value: _a.totalTrainingEffect,
+              max: 5,
+              mainColor: Colors.amber,
+              secondaryColor: Colors.blueGrey,
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 32.0),
+                child: Text(
+                  'Total Training Effect',
+                  style: theme.textTheme.headline5,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 85.0),
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Text(
+                  _a.totalTrainingEffect.toString(),
+                  style: theme.textTheme.headline2,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            )
           ],
         ),
       ),
@@ -200,13 +257,13 @@ class _ShowActivityPageState extends State<ShowActivityPage> {
           children: <Widget>[
             Expanded(
               child: LineChart(
-                _getChartData(theme),
+                _getLineChartData(theme),
                 swapAnimationDuration: const Duration(milliseconds: 250),
               ),
             ),
             Align(
               alignment: Alignment.topCenter,
-              child: _getChartHeader(theme),
+              child: _getLineChartHeader(theme),
             )
           ],
         ),
@@ -214,7 +271,7 @@ class _ShowActivityPageState extends State<ShowActivityPage> {
     );
   }
 
-  Widget _getChartHeader(ThemeData theme) {
+  Widget _getLineChartHeader(ThemeData theme) {
     String text = 'HeartRate (bpm)';
     if (_chartType == ChartType.altitude) {
       text = 'Altitude (m)';
@@ -228,7 +285,7 @@ class _ShowActivityPageState extends State<ShowActivityPage> {
     );
   }
 
-  LineChartData _getChartData(ThemeData theme) {
+  LineChartData _getLineChartData(ThemeData theme) {
     try {
       switch (_chartType) {
         case ChartType.heartRate:
@@ -407,4 +464,14 @@ class _ShowActivityPageState extends State<ShowActivityPage> {
     var dur = Duration(milliseconds: value.toInt());
     return dur.toString().split('.').first.padLeft(8, "0");
   }
+}
+
+class GaugeChartClipper extends CustomClipper<Rect> {
+  @override
+  Rect getClip(Size size) {
+    return Rect.fromLTWH(0, 0, 200, 170);
+  }
+
+  @override
+  bool shouldReclip(CustomClipper oldClipper) => true;
 }

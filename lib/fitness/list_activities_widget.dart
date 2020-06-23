@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:get/get.dart';
 import 'package:latlong/latlong.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -9,6 +10,7 @@ import '../common/sport_utils.dart';
 import '../common/widgets/widgets.dart';
 import 'activity/fetch/bloc/fetch_activities_bloc.dart';
 import 'activity/models/models.dart';
+import 'show_activity_page.dart';
 
 class ListActivitiesWidget extends StatefulWidget {
   @override
@@ -77,6 +79,7 @@ class _ListActivitiesWidgetState extends State<ListActivitiesWidget> {
     var modDate = timeago.format(activity.startTime);
     var paddingWidth = 16.0;
     return ListTile(
+      onTap: () => Get.to(ShowActivityPage(activity)),
       title: Padding(
         padding: const EdgeInsets.only(bottom: 8.0),
         child: Row(
@@ -138,6 +141,12 @@ class _ListActivitiesWidgetState extends State<ListActivitiesWidget> {
                 iconData: MaterialCommunityIcons.speedometer,
                 postfix: ' km/h',
                 tooltip: 'Speed',
+              ),
+              Container(width: paddingWidth),
+              DataPointDisplay(
+                text: (activity.totalTrainingEffect).toStringAsFixed(1),
+                iconData: MaterialCommunityIcons.run_fast,
+                tooltip: 'Effect',
               ),
             ],
           ),

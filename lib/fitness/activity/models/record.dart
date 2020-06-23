@@ -53,7 +53,7 @@ class Record {
     timeFromCourse = json['timeFromCourse'];
     heartRate = json['heartRate'];
     altitude = json['altitude'];
-    speed = json['speed'];
+    speed = ensureDouble(json['speed']);
     power = json['power'];
     grade = json['grade'];
     cadence = json['cadence'];

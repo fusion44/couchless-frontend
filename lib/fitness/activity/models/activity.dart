@@ -19,14 +19,14 @@ class Activity {
   num avgCadence;
   num avgFractionalCadence;
   num maxCadence;
-  num maxSpeed;
+  double maxSpeed;
   num totalDistance;
   num totalAscent;
   num totalDescent;
   num maxAltitude;
   num avgHeartRate;
   num maxHeartRate;
-  num totalTrainingEffect;
+  double totalTrainingEffect;
   User user;
   List<Record> records;
 
@@ -76,14 +76,14 @@ class Activity {
     avgCadence = json['avgCadence'];
     avgFractionalCadence = json['avgFractionalCadence'];
     maxCadence = json['maxCadence'];
-    maxSpeed = json['maxSpeed'];
+    maxSpeed = ensureDouble(json['maxSpeed']);
     totalDistance = json['totalDistance'];
     totalAscent = json['totalAscent'];
     totalDescent = json['totalDescent'];
     maxAltitude = json['maxAltitude'];
     avgHeartRate = json['avgHeartRate'];
     maxHeartRate = json['maxHeartRate'];
-    totalTrainingEffect = json['totalTrainingEffect'];
+    totalTrainingEffect = ensureDouble(json['totalTrainingEffect']);
     user = json['user'] != null ? new User.fromJson(json['user']) : null;
     if (json['records'] != null) {
       records = new List<Record>();
