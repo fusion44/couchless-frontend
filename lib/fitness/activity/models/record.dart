@@ -1,6 +1,7 @@
 import 'package:latlong/latlong.dart';
 
 import '../../../common/utils.dart';
+import 'heart_rate_zone_data.dart';
 
 class Record {
   String id;
@@ -10,6 +11,7 @@ class Record {
   num distance;
   num timeFromCourse;
   num heartRate;
+  HRZone heartRateZone;
   num altitude;
   num speed;
   num power;
@@ -52,6 +54,7 @@ class Record {
     distance = json['distance'];
     timeFromCourse = json['timeFromCourse'];
     heartRate = json['heartRate'];
+    heartRateZone = _getHeartRateZone(json['heartRate']);
     altitude = json['altitude'];
     speed = ensureDouble(json['speed']);
     power = json['power'];
@@ -86,4 +89,17 @@ class Record {
     data['accumulatedPower'] = this.accumulatedPower;
     return data;
   }
+}
+
+HRZone _getHeartRateZone(hr) {
+  if (hr <= HRZoneLimits.zone1) {
+    return HRZone.zone1;
+  } else if (hr <= HRZoneLimits.zone2) {
+    return HRZone.zone2;
+  } else if (hr <= HRZoneLimits.zone3) {
+    return HRZone.zone3;
+  } else if (hr <= HRZoneLimits.zone4) {
+    return HRZone.zone4;
+  }
+  return HRZone.zone5;
 }

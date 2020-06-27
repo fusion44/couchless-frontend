@@ -146,6 +146,8 @@ class _ShowActivityPageState extends State<ShowActivityPage> {
                 alignment: WrapAlignment.start,
                 children: <Widget>[
                   _buildTrainingEffectChart(theme),
+                  Container(width: 46),
+                  HRZonesPieChart(_a),
                 ],
               ),
             ),

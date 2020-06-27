@@ -1,5 +1,6 @@
 import '../../../auth/models/user.dart';
 import '../../../common/utils.dart';
+import 'heart_rate_zone_data.dart';
 import 'record.dart';
 
 class Activity {
@@ -30,6 +31,8 @@ class Activity {
   User user;
   List<Record> records;
 
+  HRZoneData heartRateZoneData;
+
   Activity({
     this.id,
     this.createdAt,
@@ -57,6 +60,7 @@ class Activity {
     this.totalTrainingEffect,
     this.user,
     this.records,
+    this.heartRateZoneData,
   });
 
   Activity.fromJson(Map<String, dynamic> json) {
@@ -91,6 +95,7 @@ class Activity {
         records.add(Record.fromJson(v));
       });
     }
+    heartRateZoneData = HRZoneData.fromRecords(records);
   }
 
   Map<String, dynamic> toJson() {
