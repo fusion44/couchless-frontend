@@ -7,6 +7,7 @@ import 'package:timeago/timeago.dart' as timeago;
 import '../common/sport_utils.dart';
 import '../common/widgets/widgets.dart';
 import 'activity/models/activity.dart';
+import 'activity/models/heart_rate_zone_data.dart';
 import 'widgets/widgets.dart';
 
 class ShowActivityPage extends StatefulWidget {
@@ -346,11 +347,14 @@ class _ShowActivityPageState extends State<ShowActivityPage> {
       lineBarsData: [
         LineChartBarData(
           spots: _spots[ChartType.heartRate],
-          colors: [Colors.redAccent],
-          barWidth: 2,
+          shadow: Shadow(offset: Offset(2, 0)),
+          barWidth: 3,
           isStrokeCapRound: false,
           dotData: FlDotData(show: false),
-          belowBarData: BarAreaData(show: true, colors: [Colors.redAccent]),
+          colors: HRZoneColors.asList(),
+          colorStops: HRZoneLimits.asNormalizedList(),
+          gradientFrom: const Offset(0, 1),
+          gradientTo: const Offset(0, 0),
         )
       ],
     );
@@ -394,10 +398,10 @@ class _ShowActivityPageState extends State<ShowActivityPage> {
         LineChartBarData(
           spots: _spots[ChartType.altitude],
           colors: [Colors.green],
-          barWidth: 2,
+          shadow: Shadow(offset: Offset(2, 0)),
+          barWidth: 3,
           isStrokeCapRound: false,
           dotData: FlDotData(show: false),
-          belowBarData: BarAreaData(show: true, colors: [Colors.green]),
         )
       ],
     );
@@ -452,11 +456,11 @@ class _ShowActivityPageState extends State<ShowActivityPage> {
         LineChartBarData(
           spots: _spots[ChartType.speed],
           colors: [Colors.blueGrey],
-          barWidth: 2,
+          shadow: Shadow(offset: Offset(2, 0)),
+          barWidth: 3,
           isCurved: false,
           isStrokeCapRound: false,
           dotData: FlDotData(show: false),
-          belowBarData: BarAreaData(show: true, colors: [Colors.blueGrey]),
         )
       ],
     );

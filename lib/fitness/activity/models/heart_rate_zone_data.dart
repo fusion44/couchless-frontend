@@ -10,6 +10,8 @@ class HRZoneColors {
   static final Color zone3 = Colors.lightGreen[200];
   static final Color zone4 = Colors.orange[200];
   static final Color zone5 = Colors.red[300];
+
+  static List<Color> asList() => [zone1, zone2, zone3, zone4, zone5];
 }
 
 class HRZoneLimits {
@@ -17,6 +19,8 @@ class HRZoneLimits {
   static final zone2 = 137;
   static final zone3 = 157;
   static final zone4 = 176;
+
+  static List<double> asNormalizedList() => const [0.2, 0.3, 0.5, 0.6, 1];
 }
 
 class HRZoneData {
