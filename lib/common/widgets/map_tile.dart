@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong/latlong.dart';
@@ -20,8 +21,36 @@ class MapTile extends StatefulWidget {
 }
 
 class _MapTileState extends State<MapTile> {
+  MapController _controller;
+
+  void initState() {
+    super.initState();
+    if (widget.interactive) {
+      _controller = MapController();
+    }
+  }
+
   Widget build(BuildContext context) {
+    if (widget.interactive) {
+      return Listener(
+        onPointerSignal: (PointerSignalEvent event) {
+          if (event is PointerScrollEvent) {
+            _controller.move(
+              _controller.center,
+              _controller.zoom + event.scrollDelta.dy / 80,
+            );
+          }
+        },
+        child: _buildFlutterMap(),
+      );
+    } else {
+      return _buildFlutterMap();
+    }
+  }
+
+  FlutterMap _buildFlutterMap() {
     return FlutterMap(
+      mapController: _controller,
       options: MapOptions(
         bounds: widget.bounds,
         boundsOptions: FitBoundsOptions(padding: EdgeInsets.all(32.0)),
