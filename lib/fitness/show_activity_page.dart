@@ -258,11 +258,9 @@ class _ShowActivityPageState extends State<ShowActivityPage> {
         child: Stack(
           fit: StackFit.expand,
           children: <Widget>[
-            Expanded(
-              child: LineChart(
-                _getLineChartData(theme),
-                swapAnimationDuration: const Duration(milliseconds: 250),
-              ),
+            LineChart(
+              _getLineChartData(theme),
+              swapAnimationDuration: const Duration(milliseconds: 250),
             ),
             Align(
               alignment: Alignment.topCenter,
