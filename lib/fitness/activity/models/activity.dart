@@ -8,6 +8,7 @@ class Activity {
   String createdAt;
   DateTime startTime;
   DateTime endTime;
+  int duration;
   String comment;
   String sportType;
   double boundaryNorth;
@@ -38,6 +39,7 @@ class Activity {
     this.createdAt,
     this.startTime,
     this.endTime,
+    duration,
     this.comment,
     this.sportType,
     this.boundaryNorth,
@@ -68,6 +70,7 @@ class Activity {
     createdAt = json['createdAt'];
     startTime = DateTime.parse(json['startTime']);
     endTime = DateTime.parse(json['endTime']);
+    duration = json['duration'];
     comment = json['comment'];
     sportType = json['sportType'];
     boundaryNorth = ensureDouble(json['boundaryNorth']);
@@ -104,6 +107,7 @@ class Activity {
     data['createdAt'] = this.createdAt;
     data['startTime'] = this.startTime;
     data['endTime'] = this.endTime;
+    data['duration'] = this.duration;
     data['comment'] = this.comment;
     data['sportType'] = this.sportType;
     data['boundaryNorth'] = this.boundaryNorth;

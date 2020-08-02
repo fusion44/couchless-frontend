@@ -38,6 +38,7 @@ query GetActivities {
     comment
     startTime
     endTime
+    duration
     sportType
     boundaryNorth
     boundarySouth
