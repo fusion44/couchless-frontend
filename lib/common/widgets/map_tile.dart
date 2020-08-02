@@ -73,8 +73,7 @@ class _MapTileState extends State<MapTile> {
 
   TileLayerOptions _getTileLayer() {
     return TileLayerOptions(
-      tileProvider: CachedFileNetworkTileProvider(
-          '/home/fusion44/dev/lifelog/backend/files/img_cache'),
+      tileProvider: NetworkTileProvider(),
       urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
       subdomains: ['a', 'b', 'c'],
     );

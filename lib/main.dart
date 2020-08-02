@@ -1,4 +1,3 @@
-import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -17,29 +16,7 @@ import 'four_o_four_page.dart';
 import 'home_page.dart';
 import 'prefs/bloc/prefs_repository.dart';
 
-class SimpleBlocDelegate extends BlocDelegate {
-  @override
-  void onEvent(Bloc bloc, Object event) {
-    super.onEvent(bloc, event);
-    print(event);
-  }
-
-  @override
-  void onTransition(Bloc bloc, dynamic transition) {
-    super.onTransition(bloc, transition);
-    print(transition);
-  }
-
-  @override
-  void onError(Bloc bloc, Object error, StackTrace stacktrace) {
-    super.onError(bloc, error, stacktrace);
-    print(error);
-  }
-}
-
 void main() async {
-  BlocSupervisor.delegate = SimpleBlocDelegate();
-
   await Hive.initFlutter();
 
   final userRepository = await UserRepository.openRepository();
@@ -63,34 +40,42 @@ class _AppState extends State<App> {
   bool graphQLClientReady = false;
   @override
   void initState() {
-    Get.find<AuthBloc>().listen((state) async {
-      if (state is AuthAuthenticated) {
-        // build GraphQL client
-        var box = await Hive.openBox('tokens');
-        var uri = box.get(prefKeyUrl).toString();
-        var jwtToken = box.get(prefKeyJWTToken).toString();
-        box.close();
-
-        final httpLink = HttpLink(uri: uri);
-        final AuthLink authLink = AuthLink(
-          getToken: () => 'Bearer $jwtToken',
-        );
-        final client = GraphQLClient(
-          cache: OptimisticCache(
-            dataIdFromObject: typenameDataIdFromObject,
-          ),
-          link: authLink.concat(httpLink),
-        );
-
-        Get.put(client);
-        Get.put(ActivityRepository(client));
-
-        setState(() {
-          graphQLClientReady = true;
-        });
-      }
-    });
+    if (Get.find<AuthBloc>().state is AuthAuthenticated) {
+      // Already authenticated
+      _buildGQLClient();
+    } else {
+      // Listen for authenticated event
+      Get.find<AuthBloc>().listen((state) async {
+        if (state is AuthAuthenticated) _buildGQLClient();
+      });
+    }
     super.initState();
+  }
+
+  void _buildGQLClient() async {
+    // build GraphQL client
+    var box = await Hive.openBox('tokens');
+    var uri = box.get(prefKeyUrl).toString();
+    var jwtToken = box.get(prefKeyJWTToken).toString();
+    box.close();
+
+    final httpLink = HttpLink(uri: uri);
+    final AuthLink authLink = AuthLink(
+      getToken: () => 'Bearer $jwtToken',
+    );
+    final client = GraphQLClient(
+      cache: OptimisticCache(
+        dataIdFromObject: typenameDataIdFromObject,
+      ),
+      link: authLink.concat(httpLink),
+    );
+
+    Get.put(client);
+    Get.put(ActivityRepository(client));
+
+    setState(() {
+      graphQLClientReady = true;
+    });
   }
 
   @override
@@ -98,7 +83,7 @@ class _AppState extends State<App> {
     return GetMaterialApp(
       theme: ThemeData.dark(),
       home: BlocBuilder<AuthBloc, AuthBaseState>(
-        bloc: Get.find<AuthBloc>(),
+        cubit: Get.find<AuthBloc>(),
         builder: (context, state) {
           if (state is AuthUninitialized && !graphQLClientReady) {
             return SplashPage();

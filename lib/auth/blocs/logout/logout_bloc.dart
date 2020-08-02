@@ -7,8 +7,7 @@ part 'logout_event.dart';
 part 'logout_state.dart';
 
 class LogoutBloc extends Bloc<LogoutBaseEvent, LogoutBaseState> {
-  @override
-  LogoutBaseState get initialState => LogoutInitial();
+  LogoutBloc() : super(LogoutInitial());
 
   @override
   Stream<LogoutBaseState> mapEventToState(

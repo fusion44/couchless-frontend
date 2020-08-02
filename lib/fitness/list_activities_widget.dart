@@ -40,7 +40,7 @@ class _ListActivitiesWidgetState extends State<ListActivitiesWidget> {
     var theme = Theme.of(context);
 
     return BlocBuilder<FetchActivitiesBloc, FetchActivitiesBaseState>(
-      bloc: _bloc,
+      cubit: _bloc,
       builder: (context, state) {
         if (state is FetchActivitiesInitial) {
           return BottomLoader();

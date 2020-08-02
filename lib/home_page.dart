@@ -27,7 +27,7 @@ class _HomePageState extends State<HomePage> {
         return Column(
           children: <Widget>[
             BlocBuilder<AuthBloc, AuthBaseState>(
-              bloc: Get.find<AuthBloc>(),
+              cubit: Get.find<AuthBloc>(),
               builder: (context, state) {
                 if (state is AuthAuthenticated) {
                   return UserAccountsDrawerHeader(

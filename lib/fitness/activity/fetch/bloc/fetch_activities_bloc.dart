@@ -12,8 +12,7 @@ part 'fetch_activities_state.dart';
 
 class FetchActivitiesBloc
     extends Bloc<FetchActivitiesBaseEvent, FetchActivitiesBaseState> {
-  @override
-  FetchActivitiesBaseState get initialState => FetchActivitiesInitial();
+  FetchActivitiesBloc() : super(FetchActivitiesInitial());
 
   @override
   Stream<FetchActivitiesBaseState> mapEventToState(

@@ -23,7 +23,7 @@ part 'mutations.dart';
 class ImportFitFileBloc
     extends Bloc<ImportFitFileBaseEvent, ImportFitFileBaseState> {
   Box box;
-  ImportFitFileBloc() {
+  ImportFitFileBloc() : super(ImportFitFileInitial()) {
     _openBox();
   }
 
@@ -36,9 +36,6 @@ class ImportFitFileBloc
     await box.close();
     return super.close();
   }
-
-  @override
-  ImportFitFileBaseState get initialState => ImportFitFileInitial();
 
   @override
   Stream<ImportFitFileBaseState> mapEventToState(

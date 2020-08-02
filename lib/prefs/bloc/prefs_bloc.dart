@@ -10,8 +10,7 @@ part 'prefs_event.dart';
 part 'prefs_state.dart';
 
 class PrefsBloc extends Bloc<PrefsBaseEvent, PrefsBaseState> {
-  @override
-  PrefsBaseState get initialState => PrefsInitialState();
+  PrefsBloc() : super(PrefsInitialState());
 
   @override
   Stream<PrefsBaseState> mapEventToState(

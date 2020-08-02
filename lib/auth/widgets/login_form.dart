@@ -52,7 +52,7 @@ class _LoginFormState extends State<LoginForm> {
           },
         ),
         BlocListener<PrefsBloc, PrefsBaseState>(
-          bloc: _prefsBloc,
+          cubit: _prefsBloc,
           listener: (context, state) {
             if (state is PrefsLoadedState) {
               if (state.prefs.containsKey(prefKeyUrl) &&

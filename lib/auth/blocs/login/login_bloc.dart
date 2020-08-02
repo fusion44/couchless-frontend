@@ -19,10 +19,8 @@ class LoginBloc extends Bloc<LoginBaseEvent, LoginBaseState> {
   LoginBloc(this.userRepository, this.authBloc, this.prefsBloc)
       : assert(userRepository != null),
         assert(authBloc != null),
-        assert(prefsBloc != null);
-
-  @override
-  LoginBaseState get initialState => LoginInitial();
+        assert(prefsBloc != null),
+        super(LoginInitial());
 
   @override
   Stream<LoginBaseState> mapEventToState(

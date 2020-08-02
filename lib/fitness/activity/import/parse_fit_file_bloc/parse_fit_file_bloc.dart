@@ -10,8 +10,7 @@ part 'parse_fit_file_state.dart';
 
 class ParseFitFileBloc
     extends Bloc<ParseFitFileBaseEvent, ParseFitFileBaseState> {
-  @override
-  ParseFitFileBaseState get initialState => ParseFitFileInitial();
+  ParseFitFileBloc() : super(ParseFitFileInitial());
 
   @override
   Stream<ParseFitFileBaseState> mapEventToState(
