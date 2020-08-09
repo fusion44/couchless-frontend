@@ -39,9 +39,11 @@ dependencies:
   #     url: https://github.com/fusion44/fit2json
   fit2json:
     path: /home/fusion44/dev/lifelog/fit2json
-  flutter_map: "^0.10.1"
+  flutter_map: "^0.10.1+1"
   latlong: ^0.6.1
   fl_chart: ^0.11.0
+  charts_flutter: ^0.9.0
+  timeline_tile: ^0.1.2
 
 dev_dependencies:
   # flutter_test:

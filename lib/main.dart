@@ -12,6 +12,7 @@ import 'auth/splash_page.dart';
 import 'auth/user_repository.dart';
 import 'constants.dart';
 import 'fitness/activity/activity_repository.dart';
+import 'fitness/stats/stats_repository.dart';
 import 'four_o_four_page.dart';
 import 'home_page.dart';
 import 'prefs/bloc/prefs_repository.dart';
@@ -72,6 +73,7 @@ class _AppState extends State<App> {
 
     Get.put(client);
     Get.put(ActivityRepository(client));
+    Get.put(StatsRepository(client));
 
     setState(() {
       graphQLClientReady = true;

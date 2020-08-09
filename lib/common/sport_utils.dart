@@ -1,6 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
+Color getColorForSport(String sport) {
+  switch (sport) {
+    case "hiking":
+      return Colors.green[100];
+    case "running":
+      return Colors.green[500];
+    case "cycling":
+      return Colors.deepOrange[400];
+    case "training":
+      return Colors.blue[600];
+    case "generic":
+      return Colors.amber[300];
+    default:
+      print('Unsupported Sport: $sport');
+      return Colors.black;
+  }
+}
+
 String getNameForSport(String sport) {
   switch (sport) {
     case "hiking":
