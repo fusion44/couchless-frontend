@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 project(runner LANGUAGES CXX)
 
-set(BINARY_NAME "lifelog_desktop")
+set(BINARY_NAME "couchless_desktop")
 
 cmake_policy(SET CMP0063 NEW)
 

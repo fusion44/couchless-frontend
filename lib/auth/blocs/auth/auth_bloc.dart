@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:lifelog/auth/models/auth_models.dart';
 
+import '../../models/auth_models.dart';
 import '../../user_repository.dart';
 
 part 'auth_event.dart';

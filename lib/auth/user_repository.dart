@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:graphql/client.dart';
 import 'package:hive/hive.dart';
-import 'package:lifelog/auth/models/auth_models.dart';
 import 'package:meta/meta.dart';
 
 import '../constants.dart';
+import 'models/auth_models.dart';
 
 class UserRepository {
   final Box _store;

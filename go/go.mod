@@ -1,4 +1,4 @@
-module github.com/fusion44/lifelog-frontend/go
+module github.com/fusion44/couchless-frontend/go
 
 go 1.14
 

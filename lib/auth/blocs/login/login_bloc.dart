@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:lifelog/prefs/bloc/prefs_bloc.dart';
 import 'package:meta/meta.dart';
 
+import '../../../prefs/bloc/prefs_bloc.dart';
 import '../../user_repository.dart';
 import '../auth/auth_bloc.dart';
 

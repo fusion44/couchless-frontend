@@ -130,9 +130,11 @@ packages:
   fit2json:
     dependency: "direct main"
     description:
-      path: "/home/fusion44/dev/lifelog/fit2json"
-      relative: false
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: "9cab5d6709c57f7e9eadffd71fa3620ddf21cab9"
+      url: "https://github.com/fusion44/fit2json"
+    source: git
     version: "0.0.0"
   fit_parser:
     dependency: transitive

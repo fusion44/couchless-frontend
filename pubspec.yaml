@@ -1,4 +1,4 @@
-name: lifelog
+name: couchless
 description: A new Flutter project.
 
 # The following defines the version and build number for your application.
@@ -34,11 +34,9 @@ dependencies:
   glob: ^1.2.0
   get: ^3.4.1
   flutter_spinkit: "^4.1.2+1"
-  # fit2json:
-  #   git:
-  #     url: https://github.com/fusion44/fit2json
   fit2json:
-    path: /home/fusion44/dev/lifelog/fit2json
+    git:
+      url: https://github.com/fusion44/fit2json
   flutter_map: "^0.10.1+1"
   latlong: ^0.6.1
   fl_chart: ^0.11.0

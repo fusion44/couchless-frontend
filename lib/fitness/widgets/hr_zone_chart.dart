@@ -1,8 +1,8 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:lifelog/fitness/activity/models/activity.dart';
-import 'package:lifelog/fitness/activity/models/heart_rate_zone_data.dart';
 
+import '../activity/models/heart_rate_zone_data.dart';
+import '../activity/models/models.dart';
 import 'indicator.dart';
 
 class HRZonesPieChart extends StatefulWidget {

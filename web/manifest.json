@@ -1,6 +1,6 @@
 {
-    "name": "lifelog",
-    "short_name": "lifelog",
+    "name": "Couchless",
+    "short_name": "Couchless",
     "start_url": ".",
     "display": "minimal-ui",
     "background_color": "#0175C2",
