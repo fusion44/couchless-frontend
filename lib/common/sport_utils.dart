@@ -3,14 +3,18 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
 Color getColorForSport(String sport) {
   switch (sport) {
-    case "hiking":
+    case 'walking':
       return Colors.green[100];
+    case "hiking":
+      return Colors.green[300];
     case "running":
       return Colors.green[500];
     case "cycling":
       return Colors.deepOrange[400];
     case "training":
       return Colors.blue[600];
+    case "alpine_skiing":
+      return Colors.white;
     case "generic":
       return Colors.amber[300];
     default:
@@ -23,12 +27,16 @@ String getNameForSport(String sport) {
   switch (sport) {
     case "hiking":
       return 'Hiking';
+    case 'walking':
+      return 'Walking';
     case "running":
       return 'Running';
     case "cycling":
       return 'Cycling';
     case "training":
       return 'Training';
+    case "alpine_skiing":
+      return 'Alpine Skiing';
     case "generic":
       return 'Generic Sport';
     default:
@@ -38,6 +46,11 @@ String getNameForSport(String sport) {
 
 Widget getIconForSport(String sport) {
   switch (sport) {
+    case 'walking':
+      return Tooltip(
+        message: 'Walking',
+        child: Icon(MaterialCommunityIcons.walk),
+      );
     case "hiking":
       return Tooltip(
         message: 'Hiking',
@@ -57,6 +70,11 @@ Widget getIconForSport(String sport) {
       return Tooltip(
         message: 'Training',
         child: Icon(FontAwesome5Solid.dumbbell),
+      );
+    case "alpine_skiing":
+      return Tooltip(
+        message: 'Skiing',
+        child: Icon(FontAwesome5Solid.skiing),
       );
     case "generic":
       return Tooltip(
