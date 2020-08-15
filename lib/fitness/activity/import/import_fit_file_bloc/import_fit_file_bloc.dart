@@ -23,13 +23,7 @@ part 'mutations.dart';
 class ImportFitFileBloc
     extends Bloc<ImportFitFileBaseEvent, ImportFitFileBaseState> {
   Box box;
-  ImportFitFileBloc() : super(ImportFitFileInitial()) {
-    _openBox();
-  }
-
-  void _openBox() async {
-    box = await Hive.openBox('ImportedFitFiles');
-  }
+  ImportFitFileBloc() : super(ImportFitFileInitial());
 
   @override
   Future<void> close() async {
@@ -41,6 +35,8 @@ class ImportFitFileBloc
   Stream<ImportFitFileBaseState> mapEventToState(
     ImportFitFileBaseEvent event,
   ) async* {
+    if (box == null) box = await Hive.openBox('ImportedFitFiles');
+
     if (event is CheckImportStatusEvent) {
       var map = <String, ImportFitFileData>{};
 
