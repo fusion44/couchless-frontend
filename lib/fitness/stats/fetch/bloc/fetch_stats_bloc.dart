@@ -21,16 +21,16 @@ class FetchStatsBloc extends Bloc<FetchStatsEvent, FetchStatsState> {
     try {
       var stats = await repo.getUserStats();
 
-      var statsSorted = <String, List<UserStat>>{};
+      var statMap = <String, List<UserStat>>{};
 
-      for (var s in stats.reversed) {
-        if (!statsSorted.containsKey(s.period.toString())) {
-          statsSorted[s.period.toString()] = [];
+      for (var s in stats) {
+        if (!statMap.containsKey(s.period.toString())) {
+          statMap[s.period.toString()] = [];
         }
-        statsSorted[s.period].add(s);
+        statMap[s.period].add(s);
       }
 
-      yield FetchStatsFinishedState(statsSorted);
+      yield FetchStatsFinishedState(statMap);
     } catch (e, trace) {
       print(e);
       print(trace);
