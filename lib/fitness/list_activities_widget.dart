@@ -78,6 +78,8 @@ class _ListActivitiesWidgetState extends State<ListActivitiesWidget> {
         .toList();
     var modDate = timeago.format(activity.startTime);
     var paddingWidth = 16.0;
+    final stationary = activity.totalDistance == 0;
+
     return ListTile(
       onTap: () => Get.to(ShowActivityPage(activity)),
       title: Padding(
@@ -99,60 +101,107 @@ class _ListActivitiesWidgetState extends State<ListActivitiesWidget> {
       ),
       subtitle: Column(
         children: [
-          Container(
-            height: 200,
-            child: MapTile(center: center, bounds: bounds, path: path),
-          ),
+          stationary
+              ? Container()
+              : Container(
+                  height: 200,
+                  child: MapTile(center: center, bounds: bounds, path: path),
+                ),
           Container(height: 8.0),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              DataPointDisplay(
-                text: (activity.totalDistance / 1000).toStringAsFixed(1),
-                iconData: Icons.timeline,
-                postfix: ' km',
-                tooltip: 'Total Distance Covered',
-              ),
-              Container(width: paddingWidth),
-              DataPointDisplay(
-                text: activity.totalAscent.toString(),
-                iconData: Icons.arrow_upward,
-                postfix: ' m',
-                tooltip: 'Total Ascent',
-              ),
-              Container(width: paddingWidth),
-              DataPointDisplay(
-                text: activity.totalDescent.toString(),
-                iconData: Icons.arrow_downward,
-                postfix: ' m',
-                tooltip: 'Total Descent',
-              ),
-              Container(width: paddingWidth),
-              DataPointDisplay(
-                text: activity.avgHeartRate.toString(),
-                iconData: MaterialCommunityIcons.heart,
-                postfix: ' bpm',
-                tooltip: 'Average Heart Rate',
-              ),
-              Container(width: paddingWidth),
-              DataPointDisplay(
-                // 60 * 60 / 1000
-                text: (activity.avgSpeed * 3.6).toStringAsFixed(1),
-                iconData: MaterialCommunityIcons.speedometer,
-                postfix: ' km/h',
-                tooltip: 'Speed',
-              ),
-              Container(width: paddingWidth),
-              DataPointDisplay(
-                text: (activity.totalTrainingEffect).toStringAsFixed(1),
-                iconData: MaterialCommunityIcons.run_fast,
-                tooltip: 'Effect',
-              ),
-            ],
-          ),
+          _buildInfoRow(activity, paddingWidth),
         ],
       ),
       leading: getIconForSport(activity.sportType),
+    );
+  }
+
+  Row _buildInfoRow(Activity activity, double paddingWidth) {
+    var children = <Widget>[];
+    var stationary = activity.totalDistance == 0;
+
+    if (!stationary) {
+      children.addAll([
+        DataPointDisplay(
+          text: (activity.totalDistance / 1000).toStringAsFixed(1),
+          iconData: Icons.timeline,
+          postfix: ' km',
+          tooltip: 'Total Distance Covered',
+        ),
+        Container(width: paddingWidth)
+      ]);
+    }
+
+    if (!stationary) {
+      children.addAll([
+        DataPointDisplay(
+          text: activity.totalAscent.toString(),
+          iconData: Icons.arrow_upward,
+          postfix: ' m',
+          tooltip: 'Total Ascent',
+        ),
+        Container(width: paddingWidth),
+      ]);
+    }
+
+    if (!stationary) {
+      children.addAll([
+        DataPointDisplay(
+          text: activity.totalDescent.toString(),
+          iconData: Icons.arrow_downward,
+          postfix: ' m',
+          tooltip: 'Total Descent',
+        ),
+        Container(width: paddingWidth),
+      ]);
+    }
+
+    children.addAll([
+      DataPointDisplay(
+        text: activity.avgHeartRate.toString(),
+        iconData: MaterialCommunityIcons.heart,
+        postfix: ' bpm',
+        tooltip: 'Average Heart Rate',
+      ),
+      Container(width: paddingWidth),
+    ]);
+
+    if (!stationary) {
+      children.addAll([
+        DataPointDisplay(
+          // 60 * 60 / 1000
+          text: (activity.avgSpeed * 3.6).toStringAsFixed(1),
+          iconData: MaterialCommunityIcons.speedometer,
+          postfix: ' km/h',
+          tooltip: 'Speed',
+        ),
+        Container(width: paddingWidth),
+      ]);
+    }
+
+    children.add(
+      DataPointDisplay(
+        text: (activity.totalTrainingEffect).toStringAsFixed(1),
+        iconData: MaterialCommunityIcons.run_fast,
+        tooltip: 'Effect',
+      ),
+    );
+
+    if (stationary) {
+      children.addAll([
+        Container(width: paddingWidth),
+        DataPointDisplay(
+          text: '${(activity.duration ~/ 60)} min',
+          iconData: MaterialCommunityIcons.clock,
+          tooltip: 'Duration in minutes',
+        )
+      ]);
+    }
+
+    return Row(
+      mainAxisAlignment: stationary
+          ? MainAxisAlignment.center
+          : MainAxisAlignment.spaceBetween,
+      children: children,
     );
   }
 
