@@ -94,15 +94,15 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: _buildFabCircularMenu(theme),
       tabs: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-          title: Text("Stats"),
+          label: "Stats",
           icon: Icon(MaterialCommunityIcons.chart_areaspline),
         ),
         BottomNavigationBarItem(
-          title: Text("Activities"),
+          label: "Activities",
           icon: Icon(Icons.flag),
         ),
         BottomNavigationBarItem(
-          title: Text("Health"),
+          label: "Health",
           icon: Icon(MaterialCommunityIcons.heart),
         ),
       ],

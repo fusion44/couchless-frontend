@@ -13,6 +13,8 @@ description: A new Flutter project.
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 version: 1.0.0+1
 
+publish_to: none
+
 environment:
   sdk: ">=2.2.2 <3.0.0"
 
@@ -21,27 +23,27 @@ dependencies:
     sdk: flutter
   characters: ^1.0.0
   graphql: ^3.1.0
-  hive: ^1.4.2
+  hive: ^1.4.4+1
   hive_flutter: ^0.3.1
-  path_provider: ^1.6.11
-  cupertino_icons: ^0.1.3
-  flutter_bloc: ^6.0.0
-  meta: ^1.1.8
-  equatable: ^1.2.3
+  path_provider: ^1.6.24
+  cupertino_icons: ^1.0.1+1
+  flutter_bloc: ^6.1.1
+  meta: ^1.2.4
+  equatable: ^1.2.5
   flutter_vector_icons: ^0.2.1
-  fab_circular_menu: ^1.0.0
-  timeago: ^2.0.26
+  fab_circular_menu: ^1.0.1
+  timeago: ^2.0.28
   glob: ^1.2.0
-  get: ^3.4.1
+  get: ^3.17.1
   flutter_spinkit: "^4.1.2+1"
   fit2json:
     git:
       url: https://github.com/fusion44/fit2json
   flutter_map: "^0.10.1+1"
   latlong: ^0.6.1
-  fl_chart: ^0.11.0
+  fl_chart: ^0.12.0
   charts_flutter: ^0.9.0
-  timeline_tile: ^0.1.2
+  timeline_tile: ^1.0.0
 
 dev_dependencies:
   # flutter_test:

@@ -108,18 +108,18 @@ class StatsOverviewPage extends StatelessWidget {
 
     return TimelineTile(
       alignment: TimelineAlign.manual,
-      lineX: 0.75,
+      lineXY: 0.75,
       isFirst: i == 0,
       isLast: i == length,
       indicatorStyle: IndicatorStyle(width: 15),
-      leftChild: Container(
+      startChild: Container(
         constraints: const BoxConstraints(minHeight: 120),
         child: Padding(
           padding: const EdgeInsets.all(10.0),
           child: StackedHorizontalSingleBarChart.withActivityData(stats),
         ),
       ),
-      rightChild: Container(
+      endChild: Container(
         constraints: const BoxConstraints(minHeight: 120),
         alignment: Alignment.bottomLeft,
         child: Padding(

@@ -322,7 +322,7 @@ class _ShowActivityPageState extends State<ShowActivityPage> {
         bottomTitles: getBottomTitles(theme),
         leftTitles: SideTitles(
           showTitles: true,
-          textStyle: theme.textTheme.headline6,
+          getTextStyles: (value) => theme.textTheme.headline6,
           interval: _heartRateInterval,
           getTitles: (value) => value.toInt().toString(),
           margin: 8,
@@ -373,7 +373,7 @@ class _ShowActivityPageState extends State<ShowActivityPage> {
         leftTitles: SideTitles(
           interval: _altitudeInterval,
           showTitles: true,
-          textStyle: theme.textTheme.headline6,
+          getTextStyles: (value) => theme.textTheme.headline6,
           getTitles: (value) => value.toInt().toString(),
           margin: 8,
           reservedSize: 30,
@@ -409,7 +409,7 @@ class _ShowActivityPageState extends State<ShowActivityPage> {
     return SideTitles(
       showTitles: true,
       reservedSize: 25,
-      textStyle: theme.textTheme.headline6,
+      getTextStyles: (value) => theme.textTheme.headline6,
       margin: 15,
       interval: _xInterval,
       getTitles: (value) => _getXTitle(value),
@@ -430,7 +430,7 @@ class _ShowActivityPageState extends State<ShowActivityPage> {
         bottomTitles: getBottomTitles(theme),
         leftTitles: SideTitles(
           showTitles: true,
-          textStyle: theme.textTheme.headline6,
+          getTextStyles: (value) => theme.textTheme.headline6,
           interval: _speedInterval,
           getTitles: (value) => value.toInt().toString(),
           margin: 8,
