@@ -10,6 +10,13 @@
             "type": "dart"
         },
         {
+            "name": "Flutter Linux",
+            "request": "attach",
+            "deviceId": "flutter-tester",
+            "observatoryUri": "http://127.0.0.1:38539/w92c5NGBNz8=/",
+            "type": "dart",
+        },
+        {
             "name": "go-flutter desktop",
             "request": "attach",
             "deviceId": "flutter-tester",
