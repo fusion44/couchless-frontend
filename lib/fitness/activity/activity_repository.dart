@@ -17,8 +17,9 @@ class ActivityRepository {
     var activities = <Activity>[];
     var res = await _gqlClient.query(_getOptions(limit, offset));
     if (res.hasException) {
-      return activities;
+      throw res.exception;
     }
+
     for (var a in res.data['activities']) {
       activities.add(Activity.fromJson(a));
     }

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:get/get.dart';
+import 'package:graphql/client.dart';
 
 import '../../activity_repository.dart';
 import '../../models/models.dart';
@@ -23,9 +24,31 @@ class FetchActivitiesBloc
       try {
         var repo = Get.find<ActivityRepository>();
         if (currentState is FetchActivitiesInitial) {
-          var activities = await repo.getActivities(limit: event.limit);
-          yield FetchActivitiesFinishedState(activities, false);
-          return;
+          try {
+            var activities = await repo.getActivities(limit: event.limit);
+            yield FetchActivitiesFinishedState(activities, false);
+            return;
+          } catch (e) {
+            if (e is OperationException && e.clientException != null) {
+              yield FetchActivitiesError(
+                currentState,
+                e.clientException.toString(),
+              );
+            } else if (e is OperationException &&
+                e.clientException == null &&
+                e.graphqlErrors != null &&
+                e.graphqlErrors.isNotEmpty) {
+              yield FetchActivitiesError(
+                currentState,
+                'One or more GQL errors: ${e.graphqlErrors.first.message}',
+              );
+            } else {
+              yield FetchActivitiesError(
+                currentState,
+                'Unknown error: ${e.message}',
+              );
+            }
+          }
         }
         if (currentState is FetchActivitiesFinishedState) {
           var activities = await repo.getActivities(
